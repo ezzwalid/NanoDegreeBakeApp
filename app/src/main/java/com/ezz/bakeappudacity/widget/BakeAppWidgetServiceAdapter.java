@@ -14,8 +14,7 @@ import com.ezz.bakeappudacity.recipe.ui.fragments.RecipeFragment;
 
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmList;
+
 
 /**
  * Created by EzzWalid on 10/29/2017.

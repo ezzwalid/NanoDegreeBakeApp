@@ -8,17 +8,11 @@ import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.realm.RealmModel;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
+
 
 
 public class Step implements Parcelable
 {
-
-    public Step() {
-    }
 
 
 
@@ -26,7 +20,7 @@ public class Step implements Parcelable
 
     @SerializedName("id")
     @Expose
-    @PrimaryKey
+
     private Integer id;
     @SerializedName("shortDescription")
     @Expose
