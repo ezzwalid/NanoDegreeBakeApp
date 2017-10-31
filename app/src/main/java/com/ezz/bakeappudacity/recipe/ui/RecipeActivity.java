@@ -14,12 +14,17 @@ import android.view.View;
 import com.ezz.bakeappudacity.R;
 import com.ezz.bakeappudacity.base.baseListners.IdealListener;
 import com.ezz.bakeappudacity.helpers.TestingIdlingResource;
+import com.ezz.bakeappudacity.recipe.model.Recipe;
+
+import java.util.ArrayList;
 
 public class RecipeActivity extends AppCompatActivity implements IdealListener{
 
+    @VisibleForTesting
+    public ArrayList<Recipe> recipes;
 
     @Nullable
-    private TestingIdlingResource testingIdlingResource;
+    public TestingIdlingResource testingIdlingResource;
 
 
     @Override
@@ -40,9 +45,11 @@ public class RecipeActivity extends AppCompatActivity implements IdealListener{
     }
 
     @Override
-    public void onIdeal() {
+    public void onIdeal(ArrayList<Recipe> recipes) {
         if (testingIdlingResource != null) {
+            this.recipes = recipes;
             testingIdlingResource.setIdleState(true);
         }
     }
+
 }

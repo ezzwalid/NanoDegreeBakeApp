@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.ezz.bakeappudacity.R;
+import com.ezz.bakeappudacity.ingredient.ui.IngredientActivity;
 import com.ezz.bakeappudacity.recipe.model.Recipe;
 import com.ezz.bakeappudacity.steps.StepsActivity;
 
@@ -22,7 +23,7 @@ public class BakeAppWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
         views.setRemoteAdapter(R.id.WidgetGrid, new Intent(context, BakeAppWidgetServiceAdapter.Service.class));
-        Intent intent = new Intent(context, StepsActivity.class);
+        Intent intent = new Intent(context, IngredientActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.WidgetGrid, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, views);

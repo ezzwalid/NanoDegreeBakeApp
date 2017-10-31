@@ -24,12 +24,15 @@ import com.ezz.bakeappudacity.base.baseListners.RecyclerViewClickListener;
 import com.ezz.bakeappudacity.helpers.TestingIdlingResource;
 import com.ezz.bakeappudacity.helpers.Utils;
 import com.ezz.bakeappudacity.recipe.model.Recipe;
+import com.ezz.bakeappudacity.recipe.ui.RecipeActivity;
 import com.ezz.bakeappudacity.recipe.ui.adapters.RecipeAdapter;
 import com.ezz.bakeappudacity.recipe.ui.presenters.RecipePresenter;
 import com.ezz.bakeappudacity.recipe.ui.presenters.impl.RecipePresenterImpl;
 import com.ezz.bakeappudacity.recipe.ui.views.RecipeView;
 import com.ezz.bakeappudacity.steps.StepsActivity;
 import com.ezz.bakeappudacity.widget.BakeAppWidget;
+
+import junit.framework.TestListener;
 
 import java.util.ArrayList;
 
@@ -52,7 +55,7 @@ public class RecipeFragment extends BaseFragment<RecipePresenter> implements Rec
     private final int RECIPES_REQUEST_CODE = 1;
     //===================================================================
     public static final String RECIPES_KEY = "recipeKey";
-    public static ArrayList<Recipe> recipes;
+    ArrayList<Recipe> recipes;
     //===================================================================
     public RecipeFragment() {
         // Required empty public constructor
@@ -135,19 +138,11 @@ public class RecipeFragment extends BaseFragment<RecipePresenter> implements Rec
     public void populateRecipes(ArrayList<Recipe> recipes) {
         this.recipes = recipes;
         adapter.updateData(recipes);
-        updateWidgetService();
-        ((IdealListener)getActivity()).onIdeal();
-    }
-    private void updateWidgetService(){
-        Intent intent = new Intent(getActivity(), BakeAppWidget.class);
-        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        try {
-            pendingIntent.send();
-        } catch (PendingIntent.CanceledException e) {
+        ((RecipeActivity)getActivity()).recipes = recipes;
+        if (((RecipeActivity)getActivity()).testingIdlingResource != null){
+            ((RecipeActivity)getActivity()).testingIdlingResource.setIdleState(true);
         }
     }
-    //===================================================================
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

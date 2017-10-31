@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.ezz.bakeappudacity.R;
 import com.ezz.bakeappudacity.base.baseListners.RecyclerViewClickListener;
 import com.ezz.bakeappudacity.recipe.model.Recipe;
@@ -47,6 +49,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     class RecipeViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recipe_title)
         TextView recipeTitle;
+        @BindView(R.id.recipeImage)
+        ImageView recipeImage;
         public RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -61,6 +65,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
                 }
             });
+            if (recipe.getImage() != null && !recipe.getImage().isEmpty()){
+                Glide.with(itemView.getContext()).load(recipe.getImage()).into(recipeImage);
+            }
         }
     }
 

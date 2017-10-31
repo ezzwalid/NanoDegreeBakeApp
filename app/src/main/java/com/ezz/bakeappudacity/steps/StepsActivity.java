@@ -1,5 +1,7 @@
 package com.ezz.bakeappudacity.steps;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,10 +17,11 @@ import com.ezz.bakeappudacity.recipe.model.Recipe;
 import com.ezz.bakeappudacity.recipe.ui.fragments.RecipeFragment;
 import com.ezz.bakeappudacity.steps.ui.fragments.StepDetailsFragment;
 import com.ezz.bakeappudacity.steps.ui.fragments.StepsFragment;
+import com.ezz.bakeappudacity.widget.BakeAppWidget;
 
 public class StepsActivity extends AppCompatActivity implements RecyclerViewClickListener{
 
-    Recipe recipe;
+    public static Recipe recipe;
     StepDetailsFragment stepDetailsFragment;
 
     @Override
@@ -29,6 +32,7 @@ public class StepsActivity extends AppCompatActivity implements RecyclerViewClic
         setSupportActionBar(toolbar);
         recipe = getIntent().getParcelableExtra(RecipeFragment.RECIPES_KEY);
         addFragments(savedInstanceState);
+        updateWidgetService();
     }
 
     private void addFragments(Bundle bundle){
@@ -75,4 +79,14 @@ public class StepsActivity extends AppCompatActivity implements RecyclerViewClic
                     .commit();
         }
     }
+    private void updateWidgetService(){
+        Intent intent = new Intent(this, BakeAppWidget.class);
+        intent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        try {
+            pendingIntent.send();
+        } catch (PendingIntent.CanceledException e) {
+        }
+    }
+    //===================================================================
 }

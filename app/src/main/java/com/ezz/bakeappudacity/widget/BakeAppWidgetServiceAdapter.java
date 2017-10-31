@@ -8,9 +8,14 @@ import android.widget.RemoteViewsService;
 
 import com.bumptech.glide.request.target.AppWidgetTarget;
 import com.ezz.bakeappudacity.R;
+import com.ezz.bakeappudacity.ingredient.ui.IngredientActivity;
+import com.ezz.bakeappudacity.ingredient.ui.fragments.IngredientFragment;
+import com.ezz.bakeappudacity.recipe.model.Ingredient;
 import com.ezz.bakeappudacity.recipe.model.Recipe;
 import com.ezz.bakeappudacity.recipe.ui.RecipeActivity;
 import com.ezz.bakeappudacity.recipe.ui.fragments.RecipeFragment;
+import com.ezz.bakeappudacity.steps.StepsActivity;
+import com.ezz.bakeappudacity.steps.ui.fragments.StepsFragment;
 
 import java.util.ArrayList;
 
@@ -23,15 +28,15 @@ import java.util.ArrayList;
 public class BakeAppWidgetServiceAdapter implements RemoteViewsService.RemoteViewsFactory {
 
     Context context;
-    ArrayList<Recipe> recipes;
+    ArrayList<Ingredient> ingredients;
 
     public BakeAppWidgetServiceAdapter(Context context) {
         this.context = context;
-        if (RecipeFragment.recipes != null){
-            recipes = RecipeFragment.recipes;
+        if (StepsActivity.recipe != null){
+            ingredients = StepsActivity.recipe.getIngredients();
         }
         else {
-            recipes =new ArrayList<>();
+            ingredients =new ArrayList<>();
         }
     }
 
@@ -44,8 +49,8 @@ public class BakeAppWidgetServiceAdapter implements RemoteViewsService.RemoteVie
 
     @Override
     public void onDataSetChanged() {
-        if (RecipeFragment.recipes != null){
-            recipes = RecipeFragment.recipes;
+        if (StepsActivity.recipe != null){
+            ingredients = StepsActivity.recipe.getIngredients();
         }
     }
 
@@ -56,19 +61,18 @@ public class BakeAppWidgetServiceAdapter implements RemoteViewsService.RemoteVie
 
     @Override
     public int getCount() {
-        return recipes.size();
+        return ingredients.size();
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.app_widget_item);
-        remoteViews.setTextViewText(R.id.widgetTitle, recipes.get(i).getName());
-        remoteViews.setImageViewResource(R.id.widgetImage, R.mipmap.widget_thumb);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(RecipeFragment.RECIPES_KEY, recipes.get(i));
+        remoteViews.setTextViewText(R.id.widgetTitle, ingredients.get(i).getIngredient());
         Intent intent = new Intent();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(IngredientFragment.INGREDIENTS_KEY, ingredients);
         intent.putExtras(bundle);
-        remoteViews.setOnClickFillInIntent(R.id.widgetImage, intent);
+        remoteViews.setOnClickFillInIntent(R.id.widgetTitle, intent);
         return remoteViews;
     }
 
