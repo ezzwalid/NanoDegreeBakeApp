@@ -24,10 +24,12 @@
         <activity
             android:name=".ingredient.ui.IngredientActivity"
             android:label="@string/title_activity_ingredient"
+            android:parentActivityName=".steps.StepsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".steps.StepsActivity"
             android:label="@string/title_activity_steps"
+            android:parentActivityName=".recipe.ui.RecipeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver android:name=".widget.BakeAppWidget">

@@ -197,17 +197,24 @@ public class StepDetailsPagerFragment extends Fragment implements View.OnClickLi
     }
 
     private void releasePlayer() {
+        saveExoPlayerState();
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
+    }
+
+    private void saveExoPlayerState(){
         if (exoPlayer != null) {
             playbackPosition = exoPlayer.getCurrentPosition();
             currentWindow = exoPlayer.getCurrentWindowIndex();
-            exoPlayer.release();
-            exoPlayer = null;
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        saveExoPlayerState();
         outState.putParcelable(STEP_KEY, step);
         outState.putLong(PLAY_BACK_POSITION_KEY, playbackPosition);
         outState.putInt(CURRENT_WINDOW_KEY, currentWindow);
@@ -220,6 +227,8 @@ public class StepDetailsPagerFragment extends Fragment implements View.OnClickLi
             currentWindow = bundle.getInt(CURRENT_WINDOW_KEY);
         }
     }
+
+
 
     @Override
     public void onClick(View view) {

@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ezz.bakeappudacity.R;
@@ -26,6 +27,7 @@ public class IngredientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ingredient);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ingredients = getIntent().getParcelableArrayListExtra(IngredientFragment.INGREDIENTS_KEY);
         addIngredientFragment(savedInstanceState);
     }
@@ -52,5 +54,15 @@ public class IngredientActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         ingredients = savedInstanceState.getParcelableArrayList(IngredientFragment.INGREDIENTS_KEY);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 }

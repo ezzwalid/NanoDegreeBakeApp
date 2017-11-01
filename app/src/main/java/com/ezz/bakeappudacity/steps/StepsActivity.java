@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.ezz.bakeappudacity.R;
@@ -30,6 +31,7 @@ public class StepsActivity extends AppCompatActivity implements RecyclerViewClic
         setContentView(R.layout.activity_steps);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recipe = getIntent().getParcelableExtra(RecipeFragment.RECIPES_KEY);
         addFragments(savedInstanceState);
         updateWidgetService();
@@ -53,6 +55,16 @@ public class StepsActivity extends AppCompatActivity implements RecyclerViewClic
         else if (Utils.isTablet(this)){
             stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().findFragmentByTag("detailsFragment");
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     @Override
